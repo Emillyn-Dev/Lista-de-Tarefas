@@ -5,6 +5,8 @@ def mostrar():
     print("1 - Adicionar Tarefas")
     print("2 - Listar Tarefas")
     print("3 - Remover Tarefas")
+    print("4 - Editar Tarefa")
+    print("5 - Marcar como concluída")
     print("0 - Sair")
 
 
@@ -47,7 +49,7 @@ while True:
 
     elif opcao == 3:
         try:
-            numero = int(input("Digite o númeo da tarefa para remover:"))
+            numero = int(input("Digite o númeo da tarefa para remover:")) - 1
             if 0 <= numero <len(tarefas):
                 tarefas.pop(numero)
                 print("Tarefa removida!")
@@ -55,6 +57,30 @@ while True:
                 print("Número inválido")
         except ValueError:
             print("Digite apenas números.")   
+        
+    elif opcao == 4:
+        if not tarefas:
+            print("Nenhuma tarefa para editar.")
+            continue
+        try:
+            numero = int(input("Digite o número da tarefa que deseja editar: ")) - 1
+            if 0 <= numero <len(tarefas):
+                tarefa = tarefas[numero]
+                print(f"Título atual: {tarefa['Titulo']}")
+                novo_titulo = input("Digite o novo título (ou ENTER para desistir): ")
+                if novo_titulo.strip():  #caso não tenha apertado o enter
+                    tarefa['Titulo'] = novo_titulo
+
+                print(f"Descrição atual: {tarefa['Descrição']}")
+                nova_descricao = input("Digite a nova descrição (ou ENTER para desistir)")
+                if nova_descricao.strip():
+                    tarefa['Descrição'] = nova_descricao
+                print("Tarefa atualizada!")
+
+            else:
+                print("Número inválido")
+        except ValueError:
+            print("Digite apenas números.")
 
     else:
         print("Opção inválida, tente novamente.") 
