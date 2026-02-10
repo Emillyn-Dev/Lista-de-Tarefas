@@ -6,7 +6,7 @@ def mostrar():
     print("2 - Listar Tarefas")
     print("3 - Remover Tarefas")
     print("4 - Editar Tarefa")
-    print("5 - Marcar como concluída")
+    print("5 - Marcar/Desmarcar Tarefa concluída")
     print("0 - Sair")
 
 
@@ -25,18 +25,22 @@ while True:
         break
     
     elif opcao == 1:
-        registro = int(input("Digite quantas tarefas deseja registrar: "))
-        for r in range(registro):
-            titulo = input("Digite o título da Tarefa: ")
-            descricao = input("Digite a descrição da tarefa: ")
+        try:
+            registro = int(input("Digite quantas tarefas deseja registrar: "))
+            for r in range(registro):
+                titulo = input("Digite o título da Tarefa: ")
+                descricao = input("Digite a descrição da tarefa: ")
 
-            tarefa = {
-                "Titulo":titulo,
-                "Descrição":descricao
-            }
+                tarefa = {
+                    "Titulo":titulo,
+                    "Descrição":descricao,
+                    "concluida": False
+                }
 
-            tarefas.append(tarefa)
-            print("Tarefa adicionada!")
+                tarefas.append(tarefa)
+                print("Tarefa adicionada!")
+        except ValueError:
+            print("Digite apenas números.")
 
     elif opcao == 2:
         if not tarefas:
@@ -44,7 +48,8 @@ while True:
         else:
             print("\nLista de tarefas:")
             for i, tarefa in enumerate(tarefas):
-                print(f"{i + 1} - {tarefa['Titulo']}")
+                status = "✅" if tarefa["concluida"] else "❌"
+                print(f"{i + 1} - {tarefa['Titulo']} [{status}]")
                 print(f" Descrição: {tarefa['Descrição']}")
 
     elif opcao == 3:
@@ -82,6 +87,21 @@ while True:
         except ValueError:
             print("Digite apenas números.")
 
+    elif opcao == 5:
+        if not tarefas:
+            print("Nenhuma tarefa para marcar.")
+            continue
+        try:
+            numero = int(input("Digite o número da tarefa para marcar/desmarcar: ")) - 1
+            if 0 <= numero < len(tarefas):
+                tarefa = tarefas[numero]
+                tarefa["concluida"] =  not tarefa["concluida"]
+                simbolo = "✅ " if tarefa["concluida"] else "❌"
+                print(f"Tarefa '{tarefa['Titulo']}' agora está {simbolo}.")
+            else:
+                print("Número inválido.")
+        except ValueError:
+            print("Digite apenas números.")
     else:
         print("Opção inválida, tente novamente.") 
 
